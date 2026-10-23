@@ -23,3 +23,9 @@ jobs:
       - name: Enviar index.html para o S3
         run: |
           aws s3 cp index.html s3://${{ vars.S3_BUCKET }}/index.html
+
+      - name: Invalidar cache do CloudFront
+        run: |
+          aws cloudFront create-invalidation \
+            --distribution-id "${{vars.CLOUDFRONT_DISTRIBUTION_ID}}"    \
+            --paths "/*"
